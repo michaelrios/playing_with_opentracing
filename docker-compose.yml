@@ -5,10 +5,18 @@ services:
     build:
       context: .
       dockerfile: ./notification_service/Dockerfile
+    environment:
+      - JAEGER_SERVICE_NAME=notification
+      - JAEGER_AGENT_HOST=192.99.0.1
+#      - JAEGER_AGENT_PORT=6831
+#      - JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger:5778
     ports:
       - 8001:80
+    extra_hosts:
+      - "jaeger:192.99.0.1"
     networks:
       - opentracing
 
 networks:
   opentracing:
+    external: true
